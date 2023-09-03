@@ -41,7 +41,7 @@ export class InMemoryCoursesRepository implements CoursesRepository {
       description: data.description,
       slug: data.slug,
       access_time: data.access_time,
-      banner_filename: data.banner_filename,
+      banner_filename: null,
       subjects,
       productor_id: data.productor_id,
     }
