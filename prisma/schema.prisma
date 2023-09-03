@@ -21,7 +21,7 @@ model User {
   name          String
   email         String   @unique
   password_hash String
-  cpf           String   @unique
+  cpf           String?  @unique
   role          Role     @default(student)
   created_at    DateTime @default(now())
 
