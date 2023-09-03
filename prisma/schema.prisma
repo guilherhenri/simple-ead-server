@@ -37,7 +37,7 @@ model Course {
   description     String
   slug            String   @unique
   access_time     Int
-  banner_filename String
+  banner_filename String?
   subjects        String[]
 
   user         User   @relation(fields: [productor_id], references: [id])
