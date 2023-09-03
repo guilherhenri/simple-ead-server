@@ -1,0 +1,15 @@
+version: '3.8'
+
+services:
+  postgres:
+    container_name: simple-ead-pg
+    image: postgres
+    ports:
+      - 5432:5432
+    environment:
+      POSTGRES_USER: simple-pg
+      POSTGRES_PASSWORD: simple-pg
+      POSTGRES_DB: simple-ead
+      PG_DATA: /data/postgres
+    volumes:
+      - ./data/pg:/data/postgres
