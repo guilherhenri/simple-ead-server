@@ -32,15 +32,16 @@ model User {
 }
 
 model Course {
-  id             String   @id @default(uuid())
-  title          String
-  description    String
-  accessTime     Int
-  bannerFilename String
-  subjects       String[]
+  id              String   @id @default(uuid())
+  title           String
+  description     String
+  slug            String   @unique
+  access_time     Int
+  banner_filename String
+  subjects        String[]
 
-  user        User   @relation(fields: [productorId], references: [id])
-  productorId String @map("productor_id")
+  user         User   @relation(fields: [productor_id], references: [id])
+  productor_id String
 
   courseUsers  CourseUser[]
   classModules ClassModule[]
