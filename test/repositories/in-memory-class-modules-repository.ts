@@ -6,8 +6,20 @@ import { ClassModulesRepository } from '@/repositories/class-modules-repository'
 export class InMemoryClassModulesRepository implements ClassModulesRepository {
   public classModules: ClassModule[] = []
 
-  async findByTitle(title: string) {
-    const classModule = this.classModules.find((item) => item.title === title)
+  async findById(id: string) {
+    const classModule = this.classModules.find((item) => item.id === id)
+
+    if (!classModule) {
+      return null
+    }
+
+    return classModule
+  }
+
+  async findByTitleAndCourseId(title: string, courseId: string) {
+    const classModule = this.classModules.find(
+      (item) => item.title === title && item.course_id === courseId,
+    )
 
     if (!classModule) {
       return null
