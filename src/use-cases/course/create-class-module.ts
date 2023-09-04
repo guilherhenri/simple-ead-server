@@ -43,10 +43,10 @@ export class CreateClassModuleUseCase {
       return left(new NotAllowedError())
     }
 
-    const classModuleWithSameTitle =
-      await this.classModulesRepository.findByTitle(title)
+    const classModuleWithSameTitleInSameCourse =
+      await this.classModulesRepository.findByTitleAndCourseId(title, courseId)
 
-    if (classModuleWithSameTitle) {
+    if (classModuleWithSameTitleInSameCourse) {
       return left(new ResourceAlreadyInUseError())
     }
 
