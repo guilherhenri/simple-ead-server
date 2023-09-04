@@ -2,8 +2,8 @@ import { InMemoryUsersRepository } from 'test/repositories/in-memory-users-repos
 import { InMemoryCoursesRepository } from 'test/repositories/in-memory-courses-repository'
 import { InMemoryCourseUsersRepository } from 'test/repositories/in-memory-course-users-repository'
 import { JoinOnCourseUseCase } from './join-on-course'
-import { makeUser } from 'test/factories/makeUser'
-import { makeCourse } from 'test/factories/makeCourse'
+import { makeUser } from 'test/factories/make-user'
+import { makeCourse } from 'test/factories/make-course'
 import { ResourceNotFoundError } from '../errors/resource-not-found-error'
 import { NotAllowedError } from '../errors/not-allowed'
 
