@@ -20,7 +20,7 @@ describe('Register Use Case', () => {
       role: 'student',
     })
 
-    expect(result.isRight).toBeTruthy()
+    expect(result.isRight()).toBeTruthy()
   })
 
   it('should hash user password upon registration', async () => {
