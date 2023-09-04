@@ -40,7 +40,40 @@ describe('Create Class Module Use Case', () => {
     expect(result.isRight()).toBeTruthy()
   })
 
-  it('should not be able to create a class module with same title twice', async () => {
+  it('should be able to create a class module with same title twice in different course', async () => {
+    const producer = await makeUser({ role: 'producer' }, usersRepository)
+    const course1 = await makeCourse(
+      { title: 'course-01' },
+      coursesRepository,
+      producer.id,
+    )
+    const course2 = await makeCourse(
+      { title: 'course-02' },
+      coursesRepository,
+      producer.id,
+    )
+
+    await sut.execute({
+      title: 'module title',
+      description: 'module description',
+      order: 1,
+      courseId: course1.id,
+      producerId: producer.id,
+    })
+
+    const result = await sut.execute({
+      title: 'module title',
+      description: 'module description',
+      order: 1,
+      courseId: course2.id,
+      producerId: producer.id,
+    })
+
+    expect(result.isRight()).toBeTruthy()
+    expect(classModulesRepository.classModules).toHaveLength(2)
+  })
+
+  it('should not be able to create a class module with same title twice in same course', async () => {
     const producer = await makeUser({ role: 'producer' }, usersRepository)
     const course = await makeCourse({}, coursesRepository, producer.id)
 
