@@ -66,6 +66,34 @@ describe('Create Course Use Case', () => {
     expect(result.value).toBeInstanceOf(ResourceAlreadyInUseError)
   })
 
+  it('should not be able to create a course with same slug twice', async () => {
+    const user = await usersRepository.create({
+      name: 'John Doe',
+      email: 'johndoe@email.com',
+      password_hash: await hash('123456', 6),
+      role: 'productor',
+    })
+
+    await sut.execute({
+      title: 'Course example',
+      description: 'Just a test',
+      accessTime: 90,
+      subjects: ['javascript', 'typescript'],
+      productorId: user.id,
+    })
+
+    const result = await sut.execute({
+      title: 'Course example-',
+      description: 'Just a test',
+      accessTime: 90,
+      subjects: ['javascript', 'typescript'],
+      productorId: user.id,
+    })
+
+    expect(result.isLeft()).toBeTruthy()
+    expect(result.value).toBeInstanceOf(ResourceAlreadyInUseError)
+  })
+
   it('should not be able to create a course if the user is not exists', async () => {
     const result = await sut.execute({
       title: 'Course example',
