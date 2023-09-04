@@ -53,7 +53,7 @@ export class InMemoryCoursesRepository implements CoursesRepository {
       access_time: data.access_time,
       banner_filename: null,
       subjects,
-      productor_id: data.productor_id,
+      producer_id: data.producer_id,
     }
 
     this.courses.push(course)

@@ -13,7 +13,7 @@ interface CreateCourseUseCaseRequest {
   description: string
   accessTime: number
   subjects: string[]
-  productorId: string
+  producerId: string
 }
 
 type CreateCourseUseCaseResponse = Either<
@@ -34,15 +34,15 @@ export class CreateCourseUseCase {
     description,
     accessTime,
     subjects,
-    productorId,
+    producerId,
   }: CreateCourseUseCaseRequest): Promise<CreateCourseUseCaseResponse> {
-    const userIsProductor = await this.usersRepository.findById(productorId)
+    const userIsProducer = await this.usersRepository.findById(producerId)
 
-    if (!userIsProductor) {
+    if (!userIsProducer) {
       return left(new ResourceNotFoundError())
     }
 
-    if (userIsProductor.role !== 'productor') {
+    if (userIsProducer.role !== 'producer') {
       return left(new NotAllowedError())
     }
 
@@ -66,7 +66,7 @@ export class CreateCourseUseCase {
       slug,
       access_time: accessTime,
       subjects,
-      productor_id: productorId,
+      producer_id: producerId,
     })
 
     return right({

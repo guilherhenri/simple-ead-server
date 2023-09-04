@@ -12,7 +12,7 @@ datasource db {
 
 enum Role {
   admin
-  productor
+  producer
   student
 }
 
@@ -40,8 +40,8 @@ model Course {
   banner_filename String?
   subjects        String[]
 
-  user         User   @relation(fields: [productor_id], references: [id])
-  productor_id String
+  user        User   @relation(fields: [producer_id], references: [id])
+  producer_id String
 
   courseUsers  CourseUser[]
   classModules ClassModule[]

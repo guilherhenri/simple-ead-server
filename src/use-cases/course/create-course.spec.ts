@@ -23,7 +23,7 @@ describe('Create Course Use Case', () => {
       name: 'John Doe',
       email: 'johndoe@email.com',
       password_hash: await hash('123456', 6),
-      role: 'productor',
+      role: 'producer',
     })
 
     const result = await sut.execute({
@@ -31,7 +31,7 @@ describe('Create Course Use Case', () => {
       description: 'Just a test',
       accessTime: 90,
       subjects: ['javascript', 'typescript'],
-      productorId: user.id,
+      producerId: user.id,
     })
 
     expect(result.isRight()).toBeTruthy()
@@ -43,7 +43,7 @@ describe('Create Course Use Case', () => {
       name: 'John Doe',
       email: 'johndoe@email.com',
       password_hash: await hash('123456', 6),
-      role: 'productor',
+      role: 'producer',
     })
 
     await sut.execute({
@@ -51,7 +51,7 @@ describe('Create Course Use Case', () => {
       description: 'Just a test',
       accessTime: 90,
       subjects: ['javascript', 'typescript'],
-      productorId: user.id,
+      producerId: user.id,
     })
 
     const result = await sut.execute({
@@ -59,7 +59,7 @@ describe('Create Course Use Case', () => {
       description: 'Just a test',
       accessTime: 90,
       subjects: ['javascript', 'typescript'],
-      productorId: user.id,
+      producerId: user.id,
     })
 
     expect(result.isLeft()).toBeTruthy()
@@ -71,7 +71,7 @@ describe('Create Course Use Case', () => {
       name: 'John Doe',
       email: 'johndoe@email.com',
       password_hash: await hash('123456', 6),
-      role: 'productor',
+      role: 'producer',
     })
 
     await sut.execute({
@@ -79,7 +79,7 @@ describe('Create Course Use Case', () => {
       description: 'Just a test',
       accessTime: 90,
       subjects: ['javascript', 'typescript'],
-      productorId: user.id,
+      producerId: user.id,
     })
 
     const result = await sut.execute({
@@ -87,7 +87,7 @@ describe('Create Course Use Case', () => {
       description: 'Just a test',
       accessTime: 90,
       subjects: ['javascript', 'typescript'],
-      productorId: user.id,
+      producerId: user.id,
     })
 
     expect(result.isLeft()).toBeTruthy()
@@ -100,14 +100,14 @@ describe('Create Course Use Case', () => {
       description: 'Just a test',
       accessTime: 90,
       subjects: ['javascript', 'typescript'],
-      productorId: 'id-test',
+      producerId: 'id-test',
     })
 
     expect(result.isLeft()).toBeTruthy()
     expect(result.value).toBeInstanceOf(ResourceNotFoundError)
   })
 
-  it('should not be able to create a course if the user is not a productor', async () => {
+  it('should not be able to create a course if the user is not a producer', async () => {
     const user = await usersRepository.create({
       name: 'John Doe',
       email: 'johndoe@email.com',
@@ -120,7 +120,7 @@ describe('Create Course Use Case', () => {
       description: 'Just a test',
       accessTime: 90,
       subjects: ['javascript', 'typescript'],
-      productorId: user.id,
+      producerId: user.id,
     })
 
     expect(result.isLeft()).toBeTruthy()

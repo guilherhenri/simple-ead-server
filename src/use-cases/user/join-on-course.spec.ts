@@ -32,8 +32,8 @@ describe('Join On Course Use Case', () => {
   })
 
   it('should be able to join on course', async () => {
-    const productor = await makeUser({ role: 'productor' }, usersRepository)
-    const course = await makeCourse({}, coursesRepository, productor.id)
+    const producer = await makeUser({ role: 'producer' }, usersRepository)
+    const course = await makeCourse({}, coursesRepository, producer.id)
     const student = await makeUser({}, usersRepository)
 
     const result = await sut.execute({
@@ -45,8 +45,8 @@ describe('Join On Course Use Case', () => {
   })
 
   it('should not be able to join on course with a user that does not exist', async () => {
-    const productor = await makeUser({ role: 'productor' }, usersRepository)
-    const course = await makeCourse({}, coursesRepository, productor.id)
+    const producer = await makeUser({ role: 'producer' }, usersRepository)
+    const course = await makeCourse({}, coursesRepository, producer.id)
 
     const result = await sut.execute({
       studentId: 'student-id',
@@ -70,11 +70,11 @@ describe('Join On Course Use Case', () => {
   })
 
   it('should not be able to join on course with a non-student user', async () => {
-    const productor = await makeUser({ role: 'productor' }, usersRepository)
-    const course = await makeCourse({}, coursesRepository, productor.id)
+    const producer = await makeUser({ role: 'producer' }, usersRepository)
+    const course = await makeCourse({}, coursesRepository, producer.id)
 
     const result = await sut.execute({
-      studentId: productor.id,
+      studentId: producer.id,
       courseId: course.id,
     })
 
@@ -85,8 +85,8 @@ describe('Join On Course Use Case', () => {
   it('must be possible to update the access expires date when the user is already in the course', async () => {
     vi.setSystemTime(new Date(2023, 0, 1, 12, 0))
 
-    const productor = await makeUser({ role: 'productor' }, usersRepository)
-    const course = await makeCourse({}, coursesRepository, productor.id)
+    const producer = await makeUser({ role: 'producer' }, usersRepository)
+    const course = await makeCourse({}, coursesRepository, producer.id)
     const student = await makeUser({}, usersRepository)
 
     await sut.execute({
