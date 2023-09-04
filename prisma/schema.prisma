@@ -33,7 +33,7 @@ model User {
 
 model Course {
   id              String   @id @default(uuid())
-  title           String
+  title           String   @unique
   description     String
   slug            String   @unique
   access_time     Int
@@ -82,7 +82,7 @@ model Class {
   id          String @id @default(uuid())
   title       String
   description String
-  slug        String
+  slug        String @unique
   video_embed String
 
   classModule     ClassModule @relation(fields: [class_module_id], references: [id])
