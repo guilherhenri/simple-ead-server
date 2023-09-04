@@ -6,6 +6,16 @@ import { ClassesRepository } from '@/repositories/classes-repository'
 export class InMemoryClassesRepository implements ClassesRepository {
   public classes: Class[] = []
 
+  async findById(id: string) {
+    const lesson = this.classes.find((item) => item.id === id)
+
+    if (!lesson) {
+      return null
+    }
+
+    return lesson
+  }
+
   async findBySlug(slug: string) {
     const lesson = this.classes.find((item) => item.slug === slug)
 
