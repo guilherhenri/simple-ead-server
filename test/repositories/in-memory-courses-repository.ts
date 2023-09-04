@@ -6,6 +6,16 @@ import { CoursesRepository } from '@/repositories/courses-repository'
 export class InMemoryCoursesRepository implements CoursesRepository {
   public courses: Course[] = []
 
+  async findById(id: string) {
+    const course = this.courses.find((course) => course.id === id)
+
+    if (!course) {
+      return null
+    }
+
+    return course
+  }
+
   async findByTitle(title: string) {
     const course = this.courses.find((course) => course.title === title)
 
