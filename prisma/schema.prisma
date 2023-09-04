@@ -55,11 +55,11 @@ model CourseUser {
   created_at        DateTime @default(now())
   updated_at        DateTime @updatedAt
 
-  user      User   @relation(fields: [studentId], references: [id])
-  studentId String @map("student_id")
+  user       User   @relation(fields: [student_id], references: [id])
+  student_id String
 
-  course   Course @relation(fields: [courseId], references: [id])
-  courseId String @map("course_id")
+  course    Course @relation(fields: [course_id], references: [id])
+  course_id String
 
   @@map("course_users")
 }
@@ -70,8 +70,8 @@ model ClassModule {
   description String
   order       Int
 
-  course   Course @relation(fields: [courseId], references: [id])
-  courseId String @map("course_id")
+  course    Course @relation(fields: [course_id], references: [id])
+  course_id String
 
   classes Class[]
 
@@ -85,8 +85,8 @@ model Class {
   slug        String
   video_embed String
 
-  classModule   ClassModule @relation(fields: [classModuleId], references: [id])
-  classModuleId String      @map("class_module_id")
+  classModule     ClassModule @relation(fields: [class_module_id], references: [id])
+  class_module_id String
 
   complementaryMaterials ComplementaryMaterial[]
 
@@ -97,8 +97,8 @@ model ComplementaryMaterial {
   id       String @id @default(uuid())
   filename String
 
-  class   Class  @relation(fields: [classId], references: [id])
-  classId String @map("class_id")
+  class    Class  @relation(fields: [class_id], references: [id])
+  class_id String
 
   @@map("complementary_materials")
 }
