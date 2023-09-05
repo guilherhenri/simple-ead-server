@@ -2,12 +2,12 @@ import { Either, left, right } from '@/core/either'
 import { ClassesRepository } from '@/repositories/classes-repository'
 import { ComplementaryMaterialsRepository } from '@/repositories/complementary-materials-repository'
 import { ResourceNotFoundError } from '../errors/resource-not-found-error'
-import { uploadFile } from '@/utils/upload-file'
+import { File, uploadFile } from '@/utils/upload-file'
 import { MultipartFile } from '@fastify/multipart'
 import { UploadFileError } from '../errors/upload-file-error'
 
 interface AddComplementaryMaterialsToClassUseCaseRequest {
-  part: MultipartFile
+  part: MultipartFile | File
   classId: string
 }
 
