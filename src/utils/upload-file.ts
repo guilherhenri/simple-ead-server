@@ -1,10 +1,11 @@
-import { MultipartFile } from '@fastify/multipart'
 import fs from 'node:fs'
 import util from 'node:util'
+import path from 'node:path'
 import { pipeline } from 'node:stream'
 import { randomUUID } from 'node:crypto'
-import path from 'node:path'
+
 import { Either, left, right } from '@/core/either'
+import { MultipartFile } from '@fastify/multipart'
 
 type UploadFileResponse = Either<
   null,
@@ -13,8 +14,13 @@ type UploadFileResponse = Either<
   }
 >
 
+export interface File {
+  file: any // eslint-disable-line
+  filename: string
+}
+
 export async function uploadFile(
-  part: MultipartFile,
+  part: MultipartFile | File,
   foldername: string,
 ): Promise<UploadFileResponse> {
   try {
@@ -26,7 +32,7 @@ export async function uploadFile(
       fs.mkdirSync(`./tmp/${foldername}`)
     }
 
-    const extension = path.extname(part.filename)
+    const extension = path.extname(part.filename).split('.').join('')
     const filename = `${randomUUID()}.${extension}`
     const pump = util.promisify(pipeline)
 
