@@ -2,17 +2,14 @@ import { Either, left, right } from '@/core/either'
 import { ClassesRepository } from '@/repositories/classes-repository'
 import { ComplementaryMaterialsRepository } from '@/repositories/complementary-materials-repository'
 import { ResourceNotFoundError } from '../errors/resource-not-found-error'
-import { File, uploadFile } from '@/utils/upload-file'
-import { MultipartFile } from '@fastify/multipart'
-import { UploadFileError } from '../errors/upload-file-error'
 
 interface AddComplementaryMaterialsToClassUseCaseRequest {
-  part: MultipartFile | File
+  filename: string
   classId: string
 }
 
 type AddComplementaryMaterialsToClassUseCaseResponse = Either<
-  ResourceNotFoundError | UploadFileError,
+  ResourceNotFoundError,
   {}
 >
 
@@ -23,7 +20,7 @@ export class AddComplementaryMaterialsToClassUseCase {
   ) {}
 
   async execute({
-    part,
+    filename,
     classId,
   }: AddComplementaryMaterialsToClassUseCaseRequest): Promise<AddComplementaryMaterialsToClassUseCaseResponse> {
     const lesson = await this.classesRepository.findById(classId)
@@ -31,14 +28,6 @@ export class AddComplementaryMaterialsToClassUseCase {
     if (!lesson) {
       return left(new ResourceNotFoundError())
     }
-
-    const result = await uploadFile(part, 'materials')
-
-    if (result.isLeft()) {
-      return left(new UploadFileError())
-    }
-
-    const { filename } = result.value
 
     await this.complementaryMaterialsRepository.create({
       filename,
