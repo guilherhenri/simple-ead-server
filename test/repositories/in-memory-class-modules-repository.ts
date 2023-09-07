@@ -28,7 +28,7 @@ export class InMemoryClassModulesRepository implements ClassModulesRepository {
     return classModule
   }
 
-  async findByCourseId(courseId: string) {
+  async fetchManyByCourseId(courseId: string) {
     const classModules = this.classModules
       .filter((item) => item.course_id === courseId)
       .sort((a, b) => {

@@ -84,6 +84,7 @@ model Class {
   description String
   slug        String @unique
   video_embed String
+  order       Int
 
   classModule     ClassModule @relation(fields: [class_module_id], references: [id])
   class_module_id String

@@ -25,6 +25,7 @@ describe('Create Class Module Use Case', () => {
       description: 'class description',
       classModuleId: classModule.id,
       videoEmbed: '<iframe>a</iframe>',
+      order: 1,
     })
 
     expect(result.isRight()).toBeTruthy()
@@ -38,6 +39,7 @@ describe('Create Class Module Use Case', () => {
       description: 'class description',
       classModuleId: classModule.id,
       videoEmbed: '<iframe>a</iframe>',
+      order: 1,
     })
 
     const result = await sut.execute({
@@ -45,6 +47,7 @@ describe('Create Class Module Use Case', () => {
       description: 'class description',
       classModuleId: classModule.id,
       videoEmbed: '<iframe>a</iframe>',
+      order: 2,
     })
 
     expect(result.isLeft()).toBeTruthy()
@@ -67,6 +70,7 @@ describe('Create Class Module Use Case', () => {
       description: 'class description',
       classModuleId: classModule1.id,
       videoEmbed: '<iframe>a</iframe>',
+      order: 1,
     })
 
     const result = await sut.execute({
@@ -74,6 +78,7 @@ describe('Create Class Module Use Case', () => {
       description: 'class description',
       classModuleId: classModule2.id,
       videoEmbed: '<iframe>a</iframe>',
+      order: 2,
     })
 
     expect(result.isLeft()).toBeTruthy()
@@ -87,6 +92,7 @@ describe('Create Class Module Use Case', () => {
       description: 'class description',
       classModuleId: 'module-id',
       videoEmbed: '<iframe>a</iframe>',
+      order: 1,
     })
 
     expect(result.isLeft()).toBeTruthy()

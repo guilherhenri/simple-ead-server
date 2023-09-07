@@ -12,6 +12,7 @@ export async function makeClass(
     class_module_id: 'class-module-id',
     slug: generateSlug(override?.title ?? 'module-example'),
     video_embed: '',
+    order: 1,
     ...override,
   })
 

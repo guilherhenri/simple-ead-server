@@ -12,6 +12,7 @@ interface CreateClassUseCaseRequest {
   description: string
   videoEmbed: string
   classModuleId: string
+  order: number
 }
 
 type CreateClassUseCaseResponse = Either<
@@ -32,6 +33,7 @@ export class CreateClassUseCase {
     description,
     videoEmbed,
     classModuleId,
+    order,
   }: CreateClassUseCaseRequest): Promise<CreateClassUseCaseResponse> {
     const classModule =
       await this.classModulesRepository.findById(classModuleId)
@@ -64,6 +66,7 @@ export class CreateClassUseCase {
       video_embed: videoEmbed,
       class_module_id: classModuleId,
       slug,
+      order,
     })
 
     return right({

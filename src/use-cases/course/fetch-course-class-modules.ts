@@ -31,7 +31,7 @@ export class FetchCourseClassModulesUseCase {
     }
 
     const classModules =
-      await this.classModulesRepository.findByCourseId(courseId)
+      await this.classModulesRepository.fetchManyByCourseId(courseId)
 
     return right({
       classModules,
