@@ -1,11 +1,10 @@
-import { hash } from 'bcryptjs'
-
 import { InMemoryUsersRepository } from 'test/repositories/in-memory-users-repository'
 import { CreateCourseUseCase } from './create-course'
 import { InMemoryCoursesRepository } from 'test/repositories/in-memory-courses-repository'
 import { ResourceAlreadyInUseError } from '../errors/resource-already-in-use-error'
 import { NotAllowedError } from '../errors/not-allowed'
 import { ResourceNotFoundError } from '../errors/resource-not-found-error'
+import { makeUser } from 'test/factories/make-user'
 
 let coursesRepository: InMemoryCoursesRepository
 let usersRepository: InMemoryUsersRepository
@@ -19,19 +18,14 @@ describe('Create Course Use Case', () => {
   })
 
   it('should be able to create a course', async () => {
-    const user = await usersRepository.create({
-      name: 'John Doe',
-      email: 'johndoe@email.com',
-      password_hash: await hash('123456', 6),
-      role: 'producer',
-    })
+    const producer = await makeUser({ role: 'producer' }, usersRepository)
 
     const result = await sut.execute({
       title: 'Course example',
       description: 'Just a test',
       accessTime: 90,
       subjects: ['javascript', 'typescript'],
-      producerId: user.id,
+      producerId: producer.id,
     })
 
     expect(result.isRight()).toBeTruthy()
@@ -39,19 +33,14 @@ describe('Create Course Use Case', () => {
   })
 
   it('should not be able to create a course with same title twice', async () => {
-    const user = await usersRepository.create({
-      name: 'John Doe',
-      email: 'johndoe@email.com',
-      password_hash: await hash('123456', 6),
-      role: 'producer',
-    })
+    const producer = await makeUser({ role: 'producer' }, usersRepository)
 
     await sut.execute({
       title: 'Course example',
       description: 'Just a test',
       accessTime: 90,
       subjects: ['javascript', 'typescript'],
-      producerId: user.id,
+      producerId: producer.id,
     })
 
     const result = await sut.execute({
@@ -59,7 +48,7 @@ describe('Create Course Use Case', () => {
       description: 'Just a test',
       accessTime: 90,
       subjects: ['javascript', 'typescript'],
-      producerId: user.id,
+      producerId: producer.id,
     })
 
     expect(result.isLeft()).toBeTruthy()
@@ -67,19 +56,14 @@ describe('Create Course Use Case', () => {
   })
 
   it('should not be able to create a course with same slug twice', async () => {
-    const user = await usersRepository.create({
-      name: 'John Doe',
-      email: 'johndoe@email.com',
-      password_hash: await hash('123456', 6),
-      role: 'producer',
-    })
+    const producer = await makeUser({ role: 'producer' }, usersRepository)
 
     await sut.execute({
       title: 'Course example',
       description: 'Just a test',
       accessTime: 90,
       subjects: ['javascript', 'typescript'],
-      producerId: user.id,
+      producerId: producer.id,
     })
 
     const result = await sut.execute({
@@ -87,7 +71,7 @@ describe('Create Course Use Case', () => {
       description: 'Just a test',
       accessTime: 90,
       subjects: ['javascript', 'typescript'],
-      producerId: user.id,
+      producerId: producer.id,
     })
 
     expect(result.isLeft()).toBeTruthy()
@@ -108,19 +92,14 @@ describe('Create Course Use Case', () => {
   })
 
   it('should not be able to create a course if the user is not a producer', async () => {
-    const user = await usersRepository.create({
-      name: 'John Doe',
-      email: 'johndoe@email.com',
-      password_hash: await hash('123456', 6),
-      role: 'admin',
-    })
+    const producer = await makeUser({ role: 'admin' }, usersRepository)
 
     const result = await sut.execute({
       title: 'Course example',
       description: 'Just a test',
       accessTime: 90,
       subjects: ['javascript', 'typescript'],
-      producerId: user.id,
+      producerId: producer.id,
     })
 
     expect(result.isLeft()).toBeTruthy()

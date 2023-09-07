@@ -3,6 +3,7 @@ import { hash } from 'bcryptjs'
 import { AuthenticateUseCase } from './authenticate'
 import { InMemoryUsersRepository } from 'test/repositories/in-memory-users-repository'
 import { InvalidCredentialsError } from '../errors/invalid-credentials-error'
+import { makeUser } from 'test/factories/make-user'
 
 let usersRepository: InMemoryUsersRepository
 let sut: AuthenticateUseCase
@@ -14,11 +15,10 @@ describe('Authenticate Use Case', () => {
   })
 
   it('should be able to authenticate', async () => {
-    await usersRepository.create({
-      name: 'John Doe',
-      email: 'johndoe@email.com',
-      password_hash: await hash('123456', 6),
-    })
+    await makeUser(
+      { email: 'johndoe@email.com', password_hash: await hash('123456', 6) },
+      usersRepository,
+    )
 
     const result = await sut.execute({
       email: 'johndoe@email.com',

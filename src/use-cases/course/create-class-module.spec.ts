@@ -27,7 +27,10 @@ describe('Create Class Module Use Case', () => {
 
   it('should be able to create a class module', async () => {
     const producer = await makeUser({ role: 'producer' }, usersRepository)
-    const course = await makeCourse({}, coursesRepository, producer.id)
+    const course = await makeCourse(
+      { producer_id: producer.id },
+      coursesRepository,
+    )
 
     const result = await sut.execute({
       title: 'module title',
@@ -40,17 +43,15 @@ describe('Create Class Module Use Case', () => {
     expect(result.isRight()).toBeTruthy()
   })
 
-  it('should be able to create a class module with same title twice in different course', async () => {
+  it('should be able to create a class module with same title twice in different courses', async () => {
     const producer = await makeUser({ role: 'producer' }, usersRepository)
     const course1 = await makeCourse(
-      { title: 'course-01' },
+      { title: 'course-01', producer_id: producer.id },
       coursesRepository,
-      producer.id,
     )
     const course2 = await makeCourse(
-      { title: 'course-02' },
+      { title: 'course-02', producer_id: producer.id },
       coursesRepository,
-      producer.id,
     )
 
     await sut.execute({
@@ -75,7 +76,10 @@ describe('Create Class Module Use Case', () => {
 
   it('should not be able to create a class module with same title twice in same course', async () => {
     const producer = await makeUser({ role: 'producer' }, usersRepository)
-    const course = await makeCourse({}, coursesRepository, producer.id)
+    const course = await makeCourse(
+      { producer_id: producer.id },
+      coursesRepository,
+    )
 
     await sut.execute({
       title: 'module title',
@@ -98,14 +102,12 @@ describe('Create Class Module Use Case', () => {
   })
 
   it('should not be able to create a class module for a course does not exists', async () => {
-    const producer = await makeUser({ role: 'producer' }, usersRepository)
-
     const result = await sut.execute({
       title: 'module title',
       description: 'module description',
       order: 1,
       courseId: 'course-id',
-      producerId: producer.id,
+      producerId: 'producer-id',
     })
 
     expect(result.isLeft()).toBeTruthy()
@@ -115,7 +117,10 @@ describe('Create Class Module Use Case', () => {
   it('should not be possible to create a class module for a course where the user is not the producer', async () => {
     const producer = await makeUser({ role: 'producer' }, usersRepository)
     const user = await makeUser({ role: 'producer' }, usersRepository)
-    const course = await makeCourse({}, coursesRepository, producer.id)
+    const course = await makeCourse(
+      { producer_id: producer.id },
+      coursesRepository,
+    )
 
     const result = await sut.execute({
       title: 'module title',

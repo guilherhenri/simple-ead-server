@@ -32,8 +32,7 @@ describe('Join On Course Use Case', () => {
   })
 
   it('should be able to join on course', async () => {
-    const producer = await makeUser({ role: 'producer' }, usersRepository)
-    const course = await makeCourse({}, coursesRepository, producer.id)
+    const course = await makeCourse({}, coursesRepository)
     const student = await makeUser({}, usersRepository)
 
     const result = await sut.execute({
@@ -45,8 +44,7 @@ describe('Join On Course Use Case', () => {
   })
 
   it('should not be able to join on course with a user that does not exist', async () => {
-    const producer = await makeUser({ role: 'producer' }, usersRepository)
-    const course = await makeCourse({}, coursesRepository, producer.id)
+    const course = await makeCourse({}, coursesRepository)
 
     const result = await sut.execute({
       studentId: 'student-id',
@@ -71,7 +69,7 @@ describe('Join On Course Use Case', () => {
 
   it('should not be able to join on course with a non-student user', async () => {
     const producer = await makeUser({ role: 'producer' }, usersRepository)
-    const course = await makeCourse({}, coursesRepository, producer.id)
+    const course = await makeCourse({}, coursesRepository)
 
     const result = await sut.execute({
       studentId: producer.id,
@@ -85,8 +83,7 @@ describe('Join On Course Use Case', () => {
   it('must be possible to update the access expires date when the user is already in the course', async () => {
     vi.setSystemTime(new Date(2023, 0, 1, 12, 0))
 
-    const producer = await makeUser({ role: 'producer' }, usersRepository)
-    const course = await makeCourse({}, coursesRepository, producer.id)
+    const course = await makeCourse({}, coursesRepository)
     const student = await makeUser({}, usersRepository)
 
     await sut.execute({

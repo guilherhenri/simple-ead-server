@@ -1,20 +1,11 @@
 import { InMemoryClassesRepository } from 'test/repositories/in-memory-classes-repository'
 import { InMemoryComplementaryMaterialsRepository } from 'test/repositories/in-memory-complementary-materials-repository'
 import { AddComplementaryMaterialsToClassUseCase } from './add-complementary-materials-to-class'
-import { InMemoryCoursesRepository } from 'test/repositories/in-memory-courses-repository'
-import { InMemoryClassModulesRepository } from 'test/repositories/in-memory-class-modules-repository'
-import { InMemoryUsersRepository } from 'test/repositories/in-memory-users-repository'
 import { ResourceNotFoundError } from '../errors/resource-not-found-error'
-import { makeUser } from 'test/factories/make-user'
-import { makeCourse } from 'test/factories/make-course'
-import { makeClassModule } from 'test/factories/make-class-module'
 import { makeClass } from 'test/factories/make-class'
 
 let complementaryMaterialsRepository: InMemoryComplementaryMaterialsRepository
 let classesRepository: InMemoryClassesRepository
-let classModulesRepository: InMemoryClassModulesRepository
-let coursesRepository: InMemoryCoursesRepository
-let usersRepository: InMemoryUsersRepository
 let sut: AddComplementaryMaterialsToClassUseCase
 
 describe('Add Complementary Material Use Case', () => {
@@ -22,9 +13,6 @@ describe('Add Complementary Material Use Case', () => {
     complementaryMaterialsRepository =
       new InMemoryComplementaryMaterialsRepository()
     classesRepository = new InMemoryClassesRepository()
-    classModulesRepository = new InMemoryClassModulesRepository()
-    coursesRepository = new InMemoryCoursesRepository()
-    usersRepository = new InMemoryUsersRepository()
 
     sut = new AddComplementaryMaterialsToClassUseCase(
       complementaryMaterialsRepository,
@@ -33,14 +21,7 @@ describe('Add Complementary Material Use Case', () => {
   })
 
   it('should be able to add a complementary material to class', async () => {
-    const producer = await makeUser({ role: 'producer' }, usersRepository)
-    const course = await makeCourse({}, coursesRepository, producer.id)
-    const classModule = await makeClassModule(
-      {},
-      classModulesRepository,
-      course.id,
-    )
-    const lesson = await makeClass({}, classesRepository, classModule.id)
+    const lesson = await makeClass({}, classesRepository)
 
     const filename = 'test.txt'
 
