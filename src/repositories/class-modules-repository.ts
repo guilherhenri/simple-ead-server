@@ -6,5 +6,6 @@ export interface ClassModulesRepository {
     title: string,
     courseId: string,
   ): Promise<ClassModule | null>
+  findByCourseId(courseId: string): Promise<ClassModule[]>
   create(data: Prisma.ClassModuleUncheckedCreateInput): Promise<ClassModule>
 }
