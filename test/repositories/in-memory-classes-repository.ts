@@ -38,6 +38,24 @@ export class InMemoryClassesRepository implements ClassesRepository {
     return lesson
   }
 
+  async fetchManyByClassModuleId(classModuleId: string) {
+    const classes = this.classes
+      .filter((item) => item.class_module_id === classModuleId)
+      .sort((a, b) => {
+        if (a.order < b.order) {
+          return -1
+        }
+
+        if (a.order > b.order) {
+          return 1
+        }
+
+        return 0
+      })
+
+    return classes
+  }
+
   async create(data: Prisma.ClassUncheckedCreateInput) {
     const lesson = {
       id: randomUUID(),
@@ -46,6 +64,7 @@ export class InMemoryClassesRepository implements ClassesRepository {
       slug: data.slug,
       video_embed: data.video_embed,
       class_module_id: data.class_module_id,
+      order: data.order,
     }
 
     this.classes.push(lesson)

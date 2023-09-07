@@ -7,5 +7,6 @@ export interface ClassesRepository {
     classModuleId: string,
   ): Promise<Class | null>
   findBySlug(slug: string): Promise<Class | null>
+  fetchManyByClassModuleId(classModuleId: string): Promise<Class[]>
   create(data: Prisma.ClassUncheckedCreateInput): Promise<Class>
 }
