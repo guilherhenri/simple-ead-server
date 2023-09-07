@@ -28,6 +28,24 @@ export class InMemoryClassModulesRepository implements ClassModulesRepository {
     return classModule
   }
 
+  async findByCourseId(courseId: string) {
+    const classModules = this.classModules
+      .filter((item) => item.course_id === courseId)
+      .sort((a, b) => {
+        if (a.order < b.order) {
+          return -1
+        }
+
+        if (a.order > b.order) {
+          return 1
+        }
+
+        return 0
+      })
+
+    return classModules
+  }
+
   async create(data: Prisma.ClassModuleUncheckedCreateInput) {
     const classModule = {
       id: randomUUID(),
